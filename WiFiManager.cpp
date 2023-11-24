@@ -163,9 +163,8 @@ int WiFiManager::serverLoop()
       {
         s += "<li>";
         s += "<a href='#' onclick='c(this)'>" + WiFi.SSID(i) + "</a>";
-        s + "<i>" + WiFi.RSSI(i) + "</i>";
+        s += "<i>" + String(WiFi.RSSI(i)) + "db</i>";
         s += "</li>";
-        // delay(1);
       }
     }
 
@@ -209,7 +208,7 @@ int WiFiManager::serverLoop()
   else
   {
     s = "HTTP/1.1 302 Found\r\n";
-    s += "Location: http://" + WiFi.localIP().toString() + "\r\n";
+    s += "Location: http://" + WiFi.softAPIP().toString() + "\r\n";
     s += "Content-Type: text/html\r\n";
     s += "Connection: close\r\n";
     s += "\r\n";
@@ -217,7 +216,7 @@ int WiFiManager::serverLoop()
   }
 
   client.print(s);
-  Serial.println("Done with client");
+  client.flush();
   return (WM_WAIT);
 }
 
@@ -292,7 +291,7 @@ void WiFiManager::loadParameters()
     String value = getEEPROMString(pos, _params[i]->getLength());
     Serial.println("Loading key: " + String(_params[i]->getId()) + ", Pos:" + String(pos) + ", Length:" + String(_params[i]->getLength()) + ", Value:" + value);
     pos += _params[i]->getLength();
-    _params[i]->setValue(value.c_str());
+    _params[i]->setValue(value);
   }
 }
 

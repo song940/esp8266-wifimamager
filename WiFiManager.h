@@ -12,22 +12,23 @@ class WiFiManagerParameter
 public:
   WiFiManagerParameter()
   {
-    _id = "";
-    _name = "";
-    _value = "";
-    _defaultValue = "";
-    _length = 0;
+    WiFiManagerParameter("", "", "", 20);
   }
   WiFiManagerParameter(const char *id, const char *name, const char *defaultValue, int length)
   {
     _id = id;
     _name = name;
     _length = length;
-    _value = "";
+    _value = new char[_length];
     _defaultValue = defaultValue;
   }
 
-  const String getValue()
+  void setValue(String value)
+  {
+    strlcpy(_value, value.c_str(), _length);
+  }
+
+  const char* getValue()
   {
     return _value;
   }
@@ -52,16 +53,13 @@ public:
     return _length;
   }
 
-  void setValue(String value)
-  {
-    _value = value;
-  }
+  
 
 private:
+  int _length;
   const char *_id;
   const char *_name;
-  String _value;
-  int _length;
+  char *_value;
   const char *_defaultValue;
 };
 
@@ -87,10 +85,9 @@ private:
   const int WM_DONE = 0;
   const int WM_WAIT = 10;
 
-  const String HTTP_404 = "HTTP/1.1 404 Not Found\r\n\r\n";
   const String HTTP_200 = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
   const String HTTP_HEAD = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\"/><title>{v}</title>";
-  const String HTTP_STYLE = "<style>input {display: block;}</style>";
+  const String HTTP_STYLE = "<style>body{width:80%;margin:auto;}input{display: block;width:100%;box-sizing:border-box;margin:5px 0;}li{display:flex;justify-content:space-between;}</style>";
   const String HTTP_SCRIPT = "<script>function c(l){document.getElementById('s').value=l.innerText||l.textContent;document.getElementById('p').focus();}</script>";
   const String HTTP_HEAD_END = "</head><body><h1>{v}</h1>";
   const String HTTP_END = "</body></html>";
@@ -99,7 +96,7 @@ private:
   int _eepromStart;
   int _paramsCount = 0;
   const char *_apName = "ESP-AP";
-  static const int MAX_PARAMS = 10;
+  static const int MAX_PARAMS = 50;
   WiFiManagerParameter *_params[MAX_PARAMS];
   WiFiManagerParameter _customSSID;
   WiFiManagerParameter _customPassword;
