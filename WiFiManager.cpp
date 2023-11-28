@@ -152,22 +152,19 @@ int WiFiManager::serverLoop()
 
     int n = WiFi.scanNetworks();
     Serial.println("scan done");
+    for (int i = 0; i < n; ++i)
+    {
+      s += "<li>";
+      s += "<a href='#' onclick='c(this)'>" + WiFi.SSID(i) + "</a>";
+      s += "<i>" + String(WiFi.RSSI(i)) + "db</i>";
+      s += "</li>";
+    }
     if (n == 0)
     {
       Serial.println("no networks found");
       s += "<div>No networks found. Refresh to scan again.</div>";
     }
-    else
-    {
-      for (int i = 0; i < n; ++i)
-      {
-        s += "<li>";
-        s += "<a href='#' onclick='c(this)'>" + WiFi.SSID(i) + "</a>";
-        s += "<i>" + String(WiFi.RSSI(i)) + "db</i>";
-        s += "</li>";
-      }
-    }
-
+    s += "<button onclick='location.reload()'>Refresh</button>";
     s += "<form method='get' action='s'>";
     s += "<h2>Wi-Fi Config</h2>";
 
@@ -181,7 +178,7 @@ int WiFiManager::serverLoop()
       s += "<input type='text' id='" + id + "' name='" + id + "' length='" + len + "' placeholder='" + name + "' value='" + value + "'>";
     }
 
-    s += "<input type='submit'>";
+    s += "<button type='submit'>Save</button>";
     s += "</form>";
     s += HTTP_END;
 
@@ -190,7 +187,6 @@ int WiFiManager::serverLoop()
   else if (path.startsWith("/s"))
   {
     parseQueryString(path);
-    delay(100);
     saveParameters();
     s = HTTP_200;
     s += HTTP_HEAD;
@@ -363,7 +359,6 @@ String WiFiManager::urlDecode(String input)
       decoded += input[i];
     }
   }
-
   return decoded;
 }
 

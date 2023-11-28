@@ -2,6 +2,8 @@
 
 Wifi Manager for ESP8266 and ESP32.
 
+## Installation
+
 ```patch
 [env:esp01]
 platform = espressif8266
@@ -11,6 +13,8 @@ framework = arduino
 lib_deps = 
 +  https://github.com/song940/esp8266-wifimamager
 ```
+
+## Example
 
 ```cpp
 #include <WiFiManager.h>

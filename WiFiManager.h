@@ -28,7 +28,7 @@ public:
     strlcpy(_value, value.c_str(), _length);
   }
 
-  const char* getValue()
+  const char *getValue()
   {
     return _value;
   }
@@ -52,8 +52,6 @@ public:
   {
     return _length;
   }
-
-  
 
 private:
   int _length;
@@ -87,7 +85,7 @@ private:
 
   const String HTTP_200 = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
   const String HTTP_HEAD = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\"/><title>{v}</title>";
-  const String HTTP_STYLE = "<style>body{width:80%;margin:auto;}input{display: block;width:100%;box-sizing:border-box;margin:5px 0;}li{display:flex;justify-content:space-between;}</style>";
+  const String HTTP_STYLE = "<style>body{width:80%;margin:auto;}input,button{display: block;width:100%;box-sizing:border-box;margin:5px 0;font-size:14px;}li{display:flex;justify-content:space-between;}</style>";
   const String HTTP_SCRIPT = "<script>function c(l){document.getElementById('s').value=l.innerText||l.textContent;document.getElementById('p').focus();}</script>";
   const String HTTP_HEAD_END = "</head><body><h1>{v}</h1>";
   const String HTTP_END = "</body></html>";
